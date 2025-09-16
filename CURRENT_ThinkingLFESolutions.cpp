@@ -397,7 +397,7 @@ void setupChannelShift() {
  * system analysis to provide optimal configuration recommendations.
  * 
  * KEY FEATURES:
- * • Intelligent surround sound detection and LFE channel warnings
+ * • Intelligent surround sound and LFE channel detection
  * • Interactive sequence input with real-time validation
  * • Advanced pattern notation support with examples
  * • Context-aware recommendations based on detected hardware
@@ -427,8 +427,8 @@ void setupGrainHopping() {
         // ========================================================================
         // Check if device likely has 5.1 surround with LFE at channel 4
         if (g_output_channels == 6) {
-            std::cout << "\n⚠️  SURROUND SOUND DETECTED (6 channels) ⚠️\n";
-            std::cout << "Your device appears to be a 5.1 surround system.\n";
+            std::cout << "\n  Possible Surround Sound Detected (6 channels) \n";
+            std::cout << "Your device is likely a 5.1 surround system.\n";
             std::cout << "In 5.1 systems, Channel 4 is typically the LFE (subwoofer).\n";
             std::cout << "If using channel 4 in your sequence sounds wrong (too bass-heavy\n";
             std::cout << "or no sound), try sequences that avoid channel 4, such as:\n";
@@ -437,6 +437,7 @@ void setupGrainHopping() {
             std::cout << "• 'x' can also be used to represent silence/skip\n\n";
         }
         // ========================================================================
+        // Fact check: channel as LFE and LFEs in different spacial configurations
         
         std::cout << "Enter grain sequence using numbers 1, 2, 3 for your objects:\n";
         std::cout << "1 = Object 1 (channel " << (garray_channel_anchor[0] + 1) << "), 2 = Object 2 (channel " << (garray_channel_anchor[1] + 1) << "), 3 = Object 3 (channel " << (garray_channel_anchor[2] + 1) << ")\n";
@@ -473,13 +474,13 @@ void function_anchor_configure(uint32_t outChannels, bool is_initial_setup = tru
     }
 
     // ========================================================================
-    // =========== NEW: EARLY SUBWOOFER WARNING (OBJECT SELECTION) ===========
+    // =========== NEW: EARLY (OBJECT SELECTION) ===========
     // ========================================================================
-    // Display subwoofer warning BEFORE users select their spatial objects
+    // Display subwoofer detection BEFORE users select their spatial objects
     // This gives them advance notice to avoid problematic channels
     if (outChannels == 6) {
-        std::cout << "\n⚠️  SURROUND SOUND DETECTED (6 channels) ⚠️\n";
-        std::cout << "Your device appears to be a 5.1 surround system.\n";
+        std::cout << "\nPossible Surround Sound Detected (6 channels)\n";
+        std::cout << "Your device is likely a 5.1 surround system.\n";
         std::cout << "IMPORTANT: Channel 4 is typically the LFE (subwoofer).\n";
         std::cout << "Consider avoiding Channel 4 for your spatial objects unless\n";
         std::cout << "you specifically want subwoofer effects.\n";
@@ -828,6 +829,7 @@ void flive_control_monitor(AudioUnit& unit_audio, // where the audio is being ou
                         {new_objects[2], new_objects[0], new_objects[1]}, // old1→new3, old2→new1, old3→new2 (rotate right)
                         {new_objects[2], new_objects[1], new_objects[0]}  // old1→new3, old2→new2, old3→new1 (reverse order)
                     };
+                    // brainstorm creative ways to expand algorithmic suggestions that feel intuitive in real time
                     
                     std::cout << "Translation options (copy/paste-able):\n";
 
@@ -971,6 +973,7 @@ void flive_control_monitor(AudioUnit& unit_audio, // where the audio is being ou
                 std::cin >> new_grain_length;
                 
                 if (new_grain_length >= 256 && new_grain_length <= 8192) { // not crash limits but just a limit I set for now
+                                                                           // crash: 
                     global_ProcessGrain.frames_object_grain = new_grain_length;
                     std::cout << "Grain length updated to " << new_grain_length << " frames\n";
                 } else {
@@ -1065,10 +1068,10 @@ void flive_control_monitor(AudioUnit& unit_audio, // where the audio is being ou
     }
 }
 /**
- * Advanced Mathematical Envelope Generation System
+ * Envelope Generation System
  * 
- * This function generates a sophisticated windowing envelope using the Hann window
- * (also known as Hanning window), which is crucial for preventing audio artifacts
+ * This function generates the Hann window
+ * (also known as Hanning window), which was my approach as a beginner for preventing audio artifacts
  * in granular synthesis. The mathematical precision of this envelope directly
  * impacts the audio quality of the final output.
  * 
@@ -1217,7 +1220,7 @@ void function_process_grain() {
     /**
      * ADVANCED RANDOM NUMBER GENERATION SYSTEM
      * 
-     * Implements the Mersenne Twister algorithm, which is a known standard
+     * Implements the Mersenne Twister algorithm, which one standard
      * for pseudo-random number generation in professional applications.
      * 
      * TECHNICAL DETAILS:
@@ -1226,7 +1229,7 @@ void function_process_grain() {
      * • std::mt19937: 32-bit Mersenne Twister with 19937-bit period
      * • Static storage: RNG state persists between function calls
      * 
-     * This approach ensures high-quality randomization while maintaining
+     * This approach ensures less-than predictable randomization while maintaining
      * excellent performance in real-time audio processing.
      */
     static thread_local std::mt19937 rng{std::random_device{}()}; 
@@ -1290,7 +1293,7 @@ void function_process_grain() {
  * • Lock-free programming for real-time thread safety
  * • Efficient memory management without dynamic allocation
  * • Multi-channel audio routing with flexible channel mapping
- * • Grain envelope processing with mathematical precision
+ * • Calculated grain envelope processing
  * • Sample-accurate timing and synchronization
  * 
  * PERFORMANCE CHARACTERISTICS:
@@ -1531,7 +1534,7 @@ static OSStatus function_callback_audio(void* ibox_audio,
             for (UInt32 ch = 0; ch < outChannels; ++ch) {
 
                 float amp = 0.0f;
-
+// NEED TO TEST >
                 // ========================================================================
                 // ============= NEW: APPLY CHANNEL OFFSET TO SINE TEST ==================
                 // ========================================================================
