@@ -3,12 +3,11 @@
  * Author: Camille Toubol-Fernandez
  * 
  * EXPERIMENTAL FEATURES OVERVIEW:
- * This application represents cutting-edge research in spatial audio processing,
- * implementing revolutionary permutation algorithms and advanced control systems
- * for granular synthesis. This version contains experimental features that push
- * the boundaries of real-time spatial audio manipulation.
+ * This application represents research in spatial audio processing,
+ * implementing permutation algorithms and control systems
+ * for granular synthesis. This version contains experimental features of real-time spatial audio manipulation.
  * 
- * INNOVATIVE FEATURES:
+ * FEATURES:
  * • Advanced Spatial Permutation Engine: Real-time 3D spatial transformations
  * • Asymmetric Jitter Control: Independent forward/backward timing variations
  * • Live Translation System: Dynamic spatial mapping with mathematical precision
