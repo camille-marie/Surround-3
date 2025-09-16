@@ -1,7 +1,5 @@
 /*
  * Real-Time Granular Synthesis Engine with Live Spatial Control
- * Author: Camille Toubol-Fernandez
- * Course: LMSC-261 Problem Sets
  * 
  * TECHNICAL OVERVIEW:
  * This application implements a sophisticated real-time granular synthesis engine
@@ -324,16 +322,18 @@ void function_print_vector() {
 /**
  * Interactive Channel Rotation Setup Interface
  * 
- * This function provides an intelligent solution to a common problem in surround
+ * This function provides an AI solution to an AI generated problem- in surround
  * sound systems: avoiding the LFE (Low Frequency Effects) channel during spatial
  * granular synthesis. The LFE channel (typically channel 4 in 5.1 systems) is
  * designed for subwoofer content and can produce undesirable results when used
  * for spatial audio positioning.
  * 
- * TECHNICAL SOLUTION: (While brainstorming low-frequency effects' role in granular synthesis)
+ * AI TECHNICAL SOLUTION: (While brainstorming low-frequency effects' role in granular synthesis)
  * Implements channel rotation to shift the mapping so that problematic channels
  * receive less critical content, while maintaining the spatial relationships
  * between objects.
+ *
+ * THINKING LFE Solutions: How can the LFE be successfully incorporated into spatial granular synthesis?
  * 
  * USER EXPERIENCE:
  * Provides clear visual representation of channel mappings to help users
